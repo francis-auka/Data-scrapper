@@ -1,0 +1,230 @@
+{
+    "generic": {
+        "name": "Generic",
+        "selectors": {
+            "product_container": [
+                ".product",
+                "[itemtype*='Product']",
+                ".product-item",
+                ".item"
+            ],
+            "title": [
+                "h2",
+                "h3",
+                ".title",
+                ".product-title",
+                "[itemprop='name']"
+            ],
+            "price": [
+                "[class*='price']",
+                ".amount",
+                ".current-price",
+                "[itemprop='price']"
+            ],
+            "discount": [
+                "[class*='discount']",
+                "[class*='sale']",
+                "[class*='save']",
+                ".badge-sale",
+                "[class*='promo']"
+            ],
+            "image": [
+                "img[src]",
+                "picture img",
+                "[class*='image'] img",
+                "[class*='photo'] img"
+            ],
+            "link": [
+                "a[href]"
+            ],
+            "next_page": [
+                "a[rel='next']",
+                ".next",
+                "a[aria-label*='Next']",
+                "button[aria-label*='next']",
+                "[class*='next-page']"
+            ]
+        },
+        "wait_for": ".product, [itemtype*='Product']",
+        "max_pages": 5
+    },
+    "amazon": {
+        "name": "Amazon",
+        "selectors": {
+            "product_container": [
+                "[data-component-type='s-search-result']",
+                ".s-result-item[data-asin]",
+                "div[data-asin]:not([data-asin=''])"
+            ],
+            "title": [
+                "h2 a span",
+                ".a-text-normal"
+            ],
+            "price": [
+                ".a-price .a-offscreen",
+                ".a-price-whole"
+            ],
+            "discount": [
+                ".a-badge-label",
+                "[class*='savingsPercentage']"
+            ],
+            "image": [
+                ".s-image"
+            ],
+            "link": [
+                "h2 a"
+            ],
+            "next_page": [
+                ".s-pagination-next"
+            ]
+        },
+        "wait_for": "[data-component-type='s-search-result']",
+        "max_pages": 3
+    },
+    "shopify": {
+        "name": "Shopify Store",
+        "selectors": {
+            "product_container": [
+                ".product-card",
+                ".grid-product",
+                "[class*='product-item']"
+            ],
+            "title": [
+                ".product-card__title",
+                ".grid-product__title",
+                "h3"
+            ],
+            "price": [
+                ".price",
+                ".product-card__price",
+                ".grid-product__price"
+            ],
+            "discount": [
+                ".badge--sale",
+                "[class*='on-sale']"
+            ],
+            "image": [
+                ".product-card__image img",
+                ".grid-product__image img"
+            ],
+            "link": [
+                "a.product-card__link",
+                "a[href*='/products/']"
+            ],
+            "next_page": [
+                "a[rel='next']",
+                ".pagination__next"
+            ]
+        },
+        "wait_for": ".product-card, .grid-product",
+        "max_pages": 5
+    },
+    "ebay": {
+        "name": "eBay",
+        "selectors": {
+            "product_container": [
+                ".s-item",
+                "[class*='s-item']"
+            ],
+            "title": [
+                ".s-item__title"
+            ],
+            "price": [
+                ".s-item__price"
+            ],
+            "discount": [
+                ".DISCOUNTED"
+            ],
+            "image": [
+                ".s-item__image-img"
+            ],
+            "link": [
+                ".s-item__link"
+            ],
+            "next_page": [
+                "a[type='next']",
+                ".pagination__next"
+            ]
+        },
+        "wait_for": ".s-item",
+        "max_pages": 3
+    },
+    "woocommerce": {
+        "name": "WooCommerce",
+        "selectors": {
+            "product_container": [
+                ".product",
+                "li.product",
+                ".woocommerce-LoopProduct-link"
+            ],
+            "title": [
+                ".woocommerce-loop-product__title",
+                "h2"
+            ],
+            "price": [
+                ".price",
+                ".woocommerce-Price-amount"
+            ],
+            "discount": [
+                ".onsale",
+                "[class*='sale']"
+            ],
+            "image": [
+                ".attachment-woocommerce_thumbnail",
+                "img"
+            ],
+            "link": [
+                "a[href*='product']"
+            ],
+            "next_page": [
+                ".next.page-numbers"
+            ]
+        },
+        "wait_for": ".product, li.product",
+        "max_pages": 5
+    },
+    "jumia": {
+        "name": "Jumia",
+        "selectors": {
+            "product_container": [
+                "article.prd",
+                "a.core",
+                "article.c-prd",
+                ".core",
+                "[data-id]"
+            ],
+            "title": [
+                "h3.name",
+                ".name",
+                ".info .name",
+                "div.name"
+            ],
+            "price": [
+                ".prc",
+                ".price",
+                "div.prc"
+            ],
+            "discount": [
+                ".tag._dsct",
+                ".bdg._dsct",
+                ".discount"
+            ],
+            "image": [
+                "img.img",
+                ".img-c .img",
+                "img[data-src]"
+            ],
+            "link": [
+                "a.core",
+                "a"
+            ],
+            "next_page": [
+                "a[aria-label='Next Page']",
+                ".pg-w.-ptm a:last-child",
+                "a[title='Next']"
+            ]
+        },
+        "wait_for": "article.prd, a.core",
+        "max_pages": 5
+    }
+}

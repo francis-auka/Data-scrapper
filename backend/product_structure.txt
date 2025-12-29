@@ -1,0 +1,62 @@
+<article class="prd _fb col c-prd">
+ <a class="btn _i _rnd -mas -fsh0 -me-start _wslt _sec" data-ga4-discount="31.94" data-ga4-is_second_chance="false" data-ga4-item_brand="Samsung" data-ga4-item_category="Phones &amp; Tablets" data-ga4-item_category2="Mobile Phones" data-ga4-item_category3="Smartphones" data-ga4-item_category4="Android Phones" data-ga4-item_id="SA948MP6L9HVINAFAMZ" data-ga4-item_name='Galaxy A17 5G, 6.7", 4GB RAM + 128GB, 5000mAh, Black (2YRs WRTY)' data-ga4-item_variant="" data-ga4-price="126.11" data-ga4-tags="JLY1|JMALL|WRNTY_2" data-moengage-brand_key="samsung" data-moengage-brand_name="Samsung" data-moengage-category_key="android-phones" data-moengage-category_name="Android Phones" data-moengage-discount="31.94" data-moengage-item_variant="" data-moengage-product_image="https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/98/5120623/1.jpg?6746" data-moengage-product_name='Galaxy A17 5G, 6.7", 4GB RAM + 128GB, 5000mAh, Black (2YRs WRTY)' data-moengage-product_price="126.11" data-moengage-product_sku="SA948MP6L9HVINAFAMZ" data-pop-open="addToWishlist" data-pop-trig="atw" data-sku="SA948MP6L9HVINAFAMZ" data-track-onclick="wishlist" data-track-onclick-bound="true" data-track-providers="ga4|moengage" href="/customer/account/login/?tkWl=SA948MP6L9HVINAFAMZ-465205755&amp;return=%2Fcatalog%2F%3Fq%3Dsamsung%2Ba17" rel="nofollow" role="button">
+  <svg aria-label="Add to wishlist" class="ic -f-or5" height="16" viewbox="0 0 24 24" width="16">
+   <use href="https://www.jumia.co.ke/assets_he/images/i-icons.f7d262d6.svg?v=1#saved-items" xlink:href="https://www.jumia.co.ke/assets_he/images/i-icons.f7d262d6.svg?v=1#saved-items">
+   </use>
+  </svg>
+ </a>
+ <a class="core" data-ga4-discount="31.94" data-ga4-index="1" data-ga4-is_second_chance="false" data-ga4-item_brand="Samsung" data-ga4-item_category="Phones &amp; Tablets" data-ga4-item_category2="Mobile Phones" data-ga4-item_category3="Smartphones" data-ga4-item_category4="Android Phones" data-ga4-item_id="SA948MP6L9HVINAFAMZ" data-ga4-item_name='Galaxy A17 5G, 6.7", 4GB RAM + 128GB, 5000mAh, Black (2YRs WRTY)' data-ga4-list="" data-ga4-price="126.11" data-ga4-tags="JLY1|JMALL|WRNTY_2" data-gtm-brand="Samsung" data-gtm-category="Phones &amp; Tablets/Mobile Phones/Smartphones/Android Phones" data-gtm-dimension23="162099" data-gtm-dimension26="30" data-gtm-dimension27="4.1" data-gtm-dimension28="1" data-gtm-dimension37="0" data-gtm-dimension43="JLY1|JMALL|WRNTY_2" data-gtm-dimension44="0" data-gtm-id="SA948MP6L9HVINAFAMZ" data-gtm-list="" data-gtm-name='Galaxy A17 5G, 6.7", 4GB RAM + 128GB, 5000mAh, Black (2YRs WRTY)' data-gtm-position="1" data-gtm-price="126.11" data-track-onclick="eecProduct" data-track-onclick-bound="true" data-track-onview="eecProduct" data-track-providers="gtm|ga4" href="/samsung-galaxy-a17-5g-6.7-4gb-ram-128gb-5000mah-black-2yrs-wrty-326021589.html">
+  <div class="img-c">
+   <img alt='Samsung Galaxy A17 5G, 6.7", 4GB RAM + 128GB, 5000mAh, Black (2YRs WRTY)' class="img" data-src="https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/98/5120623/1.jpg?6746" height="208" src="https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/98/5120623/1.jpg?6746" width="208"/>
+   <img alt="WRNTY_2" class="_ni camp" data-src="https://ke.jumia.is/badges/wrnty_2/1/138x18.png?0789" src="https://ke.jumia.is/badges/wrnty_2/1/138x18.png?0789"/>
+  </div>
+  <div class="info">
+   <div class="bdg _mall _xs">
+    Official Store
+   </div>
+   <h3 class="name">
+    Samsung Galaxy A17 5G, 6.7", 4GB RAM + 128GB, 5000mAh, Black (2YRs WRTY)
+   </h3>
+   <div class="prc">
+    KSh 19,150
+   </div>
+   <div class="s-prc-w">
+    <div class="old">
+     KSh 24,000
+    </div>
+    <div class="bdg _dsct _sm">
+     20%
+    </div>
+   </div>
+   <div class="rev">
+    <div class="stars _s">
+     4.1 out of 5
+     <div class="in" style="width:81.99999999999999%">
+     </div>
+    </div>
+    (30)
+   </div>
+   <svg aria-label="Express Shipping" class="ic xprss" height="10" viewbox="0 0 114 12" width="94">
+    <use href="https://www.jumia.co.ke/assets_he/images/i-shop-jumia.0072ec91.svg?v=1#express" xlink:href="https://www.jumia.co.ke/assets_he/images/i-shop-jumia.0072ec91.svg?v=1#express">
+    </use>
+   </svg>
+  </div>
+ </a>
+ <footer class="ft">
+  <form action="/cart/products/SA948MP6L9HVINAFAMZ-465205755/quantity/" class="-df -i-ctr -pr -j-bet" data-add-cart="" data-ga4-discount="31.94" data-ga4-is_second_chance="false" data-ga4-item_brand="Samsung" data-ga4-item_category="Phones &amp; Tablets" data-ga4-item_category2="Mobile Phones" data-ga4-item_category3="Smartphones" data-ga4-item_category4="Android Phones" data-ga4-item_id="SA948MP6L9HVINAFAMZ" data-ga4-item_name='Galaxy A17 5G, 6.7", 4GB RAM + 128GB, 5000mAh, Black (2YRs WRTY)' data-ga4-item_variant="" data-ga4-price="126.11" data-ga4-tags="JLY1|JMALL|WRNTY_2" data-gtm-brand="Samsung" data-gtm-category="Phones &amp; Tablets/Mobile Phones/Smartphones/Android Phones" data-gtm-dimension23="162099" data-gtm-dimension26="30" data-gtm-dimension27="4.1" data-gtm-dimension28="1" data-gtm-dimension37="0" data-gtm-dimension43="JLY1|JMALL|WRNTY_2" data-gtm-dimension44="0" data-gtm-id="SA948MP6L9HVINAFAMZ" data-gtm-name='Galaxy A17 5G, 6.7", 4GB RAM + 128GB, 5000mAh, Black (2YRs WRTY)' data-gtm-price="126.11" data-gtm-simplesku="SA948MP6L9HVINAFAMZ-465205755" data-gtm-variant="" data-moengage-brand_key="samsung" data-moengage-brand_name="Samsung" data-moengage-category_key="android-phones" data-moengage-category_name="Android Phones" data-moengage-discount="31.94" data-moengage-item_variant="" data-moengage-product_image="https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/98/5120623/1.jpg?6746" data-moengage-product_name='Galaxy A17 5G, 6.7", 4GB RAM + 128GB, 5000mAh, Black (2YRs WRTY)' data-moengage-product_price="126.11" data-moengage-product_sku="SA948MP6L9HVINAFAMZ" data-sku="SA948MP6L9HVINAFAMZ" data-svar="SA948MP6L9HVINAFAMZ-465205755" data-track-onsubmit="addToCart" data-track-onsubmit-bound="true" data-track-onsuccess="addToCart" data-track-onsuccess-bound="true" data-track-providers="gtm|ga4|moengage" data-xhr="true" method="post">
+   <button class="add btn _prim -pea _md" data-submit="" name="action" type="button" value="in">
+    Add to cart
+   </button>
+   <input name="capiId" type="hidden" value="_1767033060_{eventType}"/>
+   <input name="csrfToken" type="hidden" value="312cfe640e2f62d9d5f0bf2aa8420e1c"/>
+  </form>
+ </footer>
+</article>
+
+
+--- Analysis ---
+Title (.name): Samsung Galaxy A17 5G, 6.7", 4GB RAM + 128GB, 5000mAh, Black (2YRs WRTY)
+Price (.prc): KSh 19,150
+Image src: https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/98/5120623/1.jpg?6746
+Image data-src: https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/98/5120623/1.jpg?6746
+Image class: ['img']
