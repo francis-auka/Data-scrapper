@@ -63,6 +63,13 @@ A powerful, full-stack web scraping application designed to extract product data
     ```
 
 5.  Run the server:
+    
+    **On Windows (Required for Playwright):**
+    ```bash
+    python run.py
+    ```
+
+    **On Mac/Linux:**
     ```bash
     uvicorn app.main:app --reload
     ```

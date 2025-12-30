@@ -8,7 +8,7 @@ export default function ScraperTab() {
     const [urls, setUrls] = useState('')
     const [loading, setLoading] = useState(false)
     const [tasks, setTasks] = useState([])
-    const [productMode, setProductMode] = useState(false)
+
     const [maxPages, setMaxPages] = useState(3)
 
     const handleScrape = async () => {
@@ -17,18 +17,11 @@ export default function ScraperTab() {
         try {
             const urlList = urls.split('\n').filter(u => u.trim())
 
-            let response
-            if (productMode) {
-                // Use product scraper
-                response = await axios.post(`${API_BASE}/scrape-products`, {
-                    urls: urlList,
-                    max_pages: maxPages,
-                    auto_detect: false
-                })
-            } else {
-                // Use regular scraper
-                response = await axios.post(`${API_BASE}/scrape`, { urls: urlList })
-            }
+            // Always use universal scraper
+            const response = await axios.post(`${API_BASE}/universal-scrape`, {
+                urls: urlList,
+                max_pages: maxPages
+            })
 
             setUrls('')
             // Poll for task status
@@ -110,33 +103,19 @@ export default function ScraperTab() {
                     className="w-full h-32 bg-gray-800 border border-gray-700 rounded-xl p-4 text-gray-100 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all resize-none"
                 />
 
-                {/* Product Scraping Options */}
-                <div className="flex items-center gap-6 p-4 bg-gray-800/50 border border-gray-700 rounded-xl">
-                    <label className="flex items-center gap-2 cursor-pointer">
-                        <input
-                            type="checkbox"
-                            checked={productMode}
-                            onChange={(e) => setProductMode(e.target.checked)}
-                            className="w-4 h-4 rounded bg-gray-700 border-gray-600 text-blue-600 focus:ring-blue-600 focus:ring-offset-gray-900"
-                        />
-                        <span className="text-sm text-gray-300 font-medium">
-                            🛍️ Product-Level Scraping (JS rendering, pagination)
-                        </span>
+                {/* Max Pages Option */}
+                <div className="flex items-center gap-4 p-4 bg-gray-800/50 border border-gray-700 rounded-xl">
+                    <label className="text-sm text-gray-300 font-medium">
+                        Max Pages to Scrape:
                     </label>
-
-                    {productMode && (
-                        <div className="flex items-center gap-2">
-                            <label className="text-xs text-gray-500">Max Pages:</label>
-                            <input
-                                type="number"
-                                min="1"
-                                max="10"
-                                value={maxPages}
-                                onChange={(e) => setMaxPages(parseInt(e.target.value))}
-                                className="w-16 px-2 py-1 bg-gray-700 border border-gray-600 rounded text-sm text-gray-200 focus:ring-2 focus:ring-blue-600"
-                            />
-                        </div>
-                    )}
+                    <input
+                        type="number"
+                        min="1"
+                        max="10"
+                        value={maxPages}
+                        onChange={(e) => setMaxPages(parseInt(e.target.value))}
+                        className="w-20 px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-600"
+                    />
                 </div>
 
                 <button
@@ -145,7 +124,7 @@ export default function ScraperTab() {
                     className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-900/20"
                 >
                     {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
-                    {productMode ? 'Start Product Scraping' : 'Start Scraping'}
+                    Start Scraping
                 </button>
             </div>
 

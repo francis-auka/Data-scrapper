@@ -311,3 +311,83 @@ async def scrape_products_endpoint(
     return {"task_id": task_id, "message": "Product scraping started"}
 
 
+
+@router.post("/universal-scrape")
+async def universal_scrape_endpoint(
+    background_tasks: BackgroundTasks,
+    request: dict
+):
+    """
+    Universal scraper that automatically detects and extracts structured data 
+    (tables, lists, articles) from any website.
+    
+    Request body:
+    - urls: List of URLs to scrape
+    - max_pages: Maximum pages to scrape per URL (default: 1)
+    
+    Returns:
+    - task_id: ID to track scraping progress
+    """
+    urls = request.get("urls", [])
+    max_pages = request.get("max_pages", 1)
+    
+    if not urls:
+        raise HTTPException(status_code=400, detail="urls are required")
+    
+    # Create task
+    task_id = task_manager.create_task("universal_scrape", {
+        "urls": urls,
+        "max_pages": max_pages
+    })
+    
+    # Start scraping in background
+    async def run_universal_scrape():
+        try:
+            from app.services.universal_scraper import UniversalScraper
+            
+            task_manager.update_task(task_id, status="running", progress=0)
+            all_results = []
+            total_urls = len(urls)
+            
+            scraper = UniversalScraper()
+            
+            for idx, url in enumerate(urls):
+                try:
+                    # Scrape using the new universal scraper
+                    result = await scraper.scrape(url, max_pages)
+                    
+                    # Add metadata to each row
+                    for row in result.get("data", []):
+                        row["_source_url"] = url
+                        row["_strategy"] = result.get("strategy")
+                        all_results.append(row)
+                    
+                    progress = int(((idx + 1) / total_urls) * 100)
+                    task_manager.update_task(task_id, progress=progress)
+                    
+                except Exception as e:
+                    print(f"Error scraping {url}: {str(e)}")
+                    import traceback
+                    traceback.print_exc()
+            
+            task_manager.update_task(
+                task_id,
+                status="completed",
+                progress=100,
+                result=all_results
+            )
+            
+        except Exception as e:
+            import traceback
+            error_msg = f"Universal scraping failed: {str(e)}"
+            print(error_msg)
+            traceback.print_exc()
+            task_manager.update_task(
+                task_id,
+                status="failed",
+                error=error_msg
+            )
+            
+    background_tasks.add_task(run_universal_scrape)
+    
+    return {"task_id": task_id, "message": "Universal scraping started"}
