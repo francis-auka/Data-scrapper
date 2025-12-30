@@ -2,6 +2,10 @@
 
 A powerful, full-stack web scraping application designed to extract product data from e-commerce websites. Built with FastAPI (Backend) and React (Frontend), it features a modern UI, real-time progress tracking, and support for both static and dynamic (JavaScript-rendered) websites.
 
+## 🚀 Live Demo
+**Frontend:** [https://data-scrapper-tan.vercel.app/](https://data-scrapper-tan.vercel.app/)
+**Backend:** [https://data-scrapper-7hwh.onrender.com](https://data-scrapper-7hwh.onrender.com)
+
 ## Features
 
 -   **Multi-Site Support:** Pre-configured for major e-commerce platforms:
