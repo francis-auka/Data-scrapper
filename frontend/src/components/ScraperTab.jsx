@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Send, Loader2, CheckCircle, AlertCircle, ExternalLink } from 'lucide-react'
 
-const API_BASE = 'http://localhost:8000/api'
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000/api'
 
 export default function ScraperTab() {
     const [urls, setUrls] = useState('')

@@ -12,7 +12,7 @@ import {
 } from 'recharts'
 import { toPng } from 'html-to-image'
 
-const API_BASE = 'http://localhost:8000/api'
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000/api'
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899']
 
 export default function ProcessorTab() {
@@ -961,8 +961,8 @@ export default function ProcessorTab() {
                                                             <td className="px-4 py-3 text-sm font-medium text-white">{colName}</td>
                                                             <td className="px-4 py-3">
                                                                 <span className={`text-xs px-2 py-1 rounded ${colInfo.type === 'numeric'
-                                                                        ? 'bg-green-500/20 text-green-400'
-                                                                        : 'bg-blue-500/20 text-blue-400'
+                                                                    ? 'bg-green-500/20 text-green-400'
+                                                                    : 'bg-blue-500/20 text-blue-400'
                                                                     }`}>
                                                                     {colInfo.type}
                                                                 </span>

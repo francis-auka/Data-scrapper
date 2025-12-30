@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: data-scrapper-backend
+    env: docker
+    dockerContext: .
+    dockerfilePath: Dockerfile
+    plan: starter # Playwright needs at least 512MB-1GB RAM
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: 8000
