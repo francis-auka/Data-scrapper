@@ -38,11 +38,14 @@ class UniversalScraper:
         """
         Main entry point. Scrapes a URL and returns structured data.
         """
+        strategy = "none"
+        all_data = []
+        print(f"DEBUG: Starting scrape for {url}, strategy initialized to {strategy}")
+        
         try:
             await self._init_browser()
             page = await self.context.new_page()
             
-            all_data = []
             current_url = url
             
             for page_num in range(max_pages):
@@ -92,14 +95,25 @@ class UniversalScraper:
 
     async def _load_page(self, page: Page, url: str) -> Optional[str]:
         try:
-            await page.goto(url, wait_until='domcontentloaded', timeout=60000)
-            await page.wait_for_load_state('networkidle', timeout=10000)
+            # Use a more generous timeout and wait for load state
+            print(f"DEBUG: Loading page {url}...")
+            await page.goto(url, wait_until='load', timeout=60000)
+            
+            # Network idle is often problematic on sites like Jumia, so we make it optional
+            try:
+                await page.wait_for_load_state('networkidle', timeout=5000)
+            except Exception:
+                print(f"DEBUG: Network didn't go idle for {url}, proceeding anyway")
+            
             # Scroll to bottom to trigger lazy loading
             await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
             await asyncio.sleep(2)
-            return await page.content()
+            
+            content = await page.content()
+            print(f"DEBUG: Page loaded successfully, content length: {len(content)}")
+            return content
         except Exception as e:
-            print(f"Error loading {url}: {e}")
+            print(f"DEBUG: Error loading {url}: {str(e)}")
             return None
 
     def _detect_strategy(self, soup: BeautifulSoup) -> str:
@@ -166,25 +180,83 @@ class UniversalScraper:
         return data
 
     def _detect_repeating_structure(self, soup: BeautifulSoup) -> Optional[str]:
-        # Simplified detection: Look for class names that appear frequently
-        classes = {}
-        for elem in soup.find_all(class_=True):
-            # Use only the first class to be more lenient
+        """
+        Detects the most likely class for repeating items (like product cards).
+        """
+        candidates = {}
+        price_pattern = re.compile(r'(KSh|[\$£€]|Rs\.?|Price|[\d,]+\.\d{2})', re.I)
+        
+        # We look for elements that have some content (links or images)
+        for elem in soup.find_all(['div', 'article', 'li', 'a'], class_=True):
             if not elem.get('class'): continue
             
+            # Heuristic: Must have at least one link or image to be a "card"
+            if not (elem.find('a') or elem.find('img')):
+                continue
+                
+            # Heuristic: Must have some text
+            text = elem.get_text(" ", strip=True)
+            if len(text) < 15: # Increased from 10
+                continue
+                
             cls_str = elem['class'][0]
-            classes[cls_str] = classes.get(cls_str, 0) + 1
+            if cls_str not in candidates:
+                candidates[cls_str] = {
+                    'count': 0,
+                    'total_text_len': 0,
+                    'has_img': 0,
+                    'has_link': 0,
+                    'has_price': 0,
+                    'tag_diversity': set()
+                }
             
-        # Filter for classes that appear 3+ times (relaxed from 5) and contain text
-        candidates = []
-        for cls, count in classes.items():
-            if count >= 3:
-                candidates.append(cls)
+            candidates[cls_str]['count'] += 1
+            candidates[cls_str]['total_text_len'] += len(text)
+            if elem.find('img'): candidates[cls_str]['has_img'] += 1
+            if elem.find('a'): candidates[cls_str]['has_link'] += 1
+            if price_pattern.search(text): candidates[cls_str]['has_price'] += 1
+            
+            # Count unique tag types inside
+            for child in elem.find_all(True):
+                candidates[cls_str]['tag_diversity'].add(child.name)
+            
+        # Score the candidates
+        scored = []
+        for cls, stats in candidates.items():
+            count = stats['count']
+            
+            # We prefer counts between 5 and 100 (typical for a page)
+            if count < 3 or count > 200:
+                continue
+                
+            # Score based on content richness
+            avg_text = stats['total_text_len'] / count
+            img_ratio = stats['has_img'] / count
+            link_ratio = stats['has_link'] / count
+            price_ratio = stats['has_price'] / count
+            diversity = len(stats['tag_diversity'])
+            
+            # Base score is count
+            score = count
+            
+            # Multipliers for "Product-like" features
+            score *= (1 + img_ratio)
+            score *= (1 + link_ratio)
+            score *= (1 + price_ratio * 5) # Heavy weight on prices
+            score *= (1 + (diversity / 10)) # Weight on tag diversity
+            
+            if avg_text > 40: score *= 1.5 # Product titles + prices are usually longer than nav links
+            
+            scored.append((cls, score, count, price_ratio))
+            
+        # Sort by score descending
+        scored.sort(key=lambda x: x[1], reverse=True)
         
-        # Sort by count descending
-        candidates.sort(key=lambda x: classes[x], reverse=True)
-        
-        return candidates[0] if candidates else None
+        if scored:
+            print(f"DEBUG: Top candidates: {scored[:3]}")
+            return scored[0][0]
+            
+        return None
 
     def _extract_repeating_items(self, soup: BeautifulSoup) -> List[Dict[str, Any]]:
         print("Extracting repeating items...")
@@ -221,10 +293,16 @@ class UniversalScraper:
         print(f"Found {len(containers)} potential items.")
         data = []
         
-        for container in containers:
+        for i, container in enumerate(containers):
             item = self._extract_item_details(container)
+            
+            # Debug the first 3 items to see what's being found
+            if i < 3:
+                print(f"DEBUG: Item {i} raw extraction: {item}")
+                
             # Only add if we got some meaningful text
-            if item and (item.get('title') or len(item) > 1):
+            # We check if we have at least 2 fields or a title
+            if item and (item.get('title') or len(item) >= 2):
                 data.append(item)
                 
         print(f"Successfully extracted {len(data)} items.")
@@ -232,14 +310,14 @@ class UniversalScraper:
 
     def _extract_item_details(self, container: Tag) -> Dict[str, Any]:
         item = {}
-        
-        # Strategy: Find all child elements with class names or specific tags
-        # and use them as keys
+        price_pattern = re.compile(r'(KSh|[\$£€]|Rs\.?|Price|[\d,]+\.\d{2})', re.I)
         
         # 1. Images
         img = container.find('img')
-        if img and img.get('src'):
-            item['image'] = img['src']
+        if img:
+            img_url = img.get('src') or img.get('data-src') or img.get('data-lazy-src')
+            if img_url:
+                item['image'] = img_url
             
         # 2. Links
         link = container.find('a')
@@ -247,28 +325,45 @@ class UniversalScraper:
             item['link'] = link['href']
             
         # 3. Text fields
-        # Iterate over children to find text
-        # We limit depth to avoid grabbing too much garbage
+        text_elements = container.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'div', 'b', 'strong'])
         
-        for child in container.descendants:
-            if child.name in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']:
-                key = "title" if not item.get("title") else f"heading_{child.name}"
-                item[key] = child.get_text(strip=True)
+        all_texts = []
+        for elem in text_elements:
+            if elem.find(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'div', 'b', 'strong']):
+                continue
+                
+            text = elem.get_text(strip=True)
+            if not text or len(text) > 300:
+                continue
+            all_texts.append((elem, text))
             
-            elif child.name in ['p', 'span', 'div']:
-                if child.get('class'):
-                    # Use class name as key (simplified)
-                    key = child['class'][0]
-                    # Filter out common utility classes if possible, but for now just use it
-                    text = child.get_text(strip=True)
-                    if text and len(text) < 200: # Skip long paragraphs
-                        if key not in item:
-                            item[key] = text
+        # Try to identify specific fields
+        for elem, text in all_texts:
+            # Price detection
+            if price_pattern.search(text) and len(text) < 30:
+                key = "price" if "price" not in item else f"price_{len(item)}"
+                item[key] = text
+                continue
+                
+            # Title detection (usually the longest text or a heading)
+            if elem.name in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] or len(text) > 30:
+                if "title" not in item or len(text) > len(item.get("title", "")):
+                    item["title"] = text
+                continue
+            
+            # Generic fields
+            if elem.get('class'):
+                cls = elem['class'][0]
+                if cls not in ['text', 'content', 'inner', 'name', 'price']:
+                    item[cls] = text
+                else:
+                    item[f"field_{len(item)}"] = text
+            else:
+                item[f"field_{len(item)}"] = text
                             
-        # Cleanup keys
         clean_item = {}
         for k, v in item.items():
-            if v:
+            if v and len(str(v)) > 1:
                 clean_item[k] = v
         
         return clean_item
